@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = 'ap-south-1'
-        S3_BUCKET  = 'your-s3-bucket-name'
+        AWS_REGION = 'eu-north-1'
+        S3_BUCKET  = 's3-bucket-october-batch'
     }
 
     stages {
@@ -22,7 +22,7 @@ pipeline {
 
                     mkdir -p build
 
-                    cp app.js build/
+                    cp node.js build/
                     cp package.json build/ || true
 
                     echo "Build Completed"

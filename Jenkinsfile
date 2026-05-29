@@ -11,6 +11,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git url: 'https://github.com/HarshithNA/S3-bucket-static-website'
+                git credentials: 'git-dredentials'
             }
         }
         stage('Build') {

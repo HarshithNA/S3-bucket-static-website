@@ -9,11 +9,12 @@ pipeline {
     }
     stages {
         stage('Checkout') {
-            steps {
-                git url: 'https://github.com/HarshithNA/S3-bucket-static-website'
-                credentialsId: 'git-dredentials'
-            }
-        }
+    steps {
+        git branch: 'main',
+            credentialsId: 'git-credentials',
+            url: 'https://github.com/HarshithNA/S3-bucket-static-website'
+    }
+}
         stage('Build') {
             steps {
                 sh 'npm install && npm run build'

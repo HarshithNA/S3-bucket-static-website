@@ -1,0 +1,57 @@
+pipeline {
+    agent any
+
+    environment {
+        AWS_REGION = 'ap-south-1'
+        S3_BUCKET  = 'your-s3-bucket-name'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/HarshithNA/S3-bucket-static-website'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh '''
+                    echo "Build Started"
+
+                    mkdir -p build
+
+                    cp app.js build/
+                    cp package.json build/ || true
+
+                    echo "Build Completed"
+                '''
+            }
+        }
+
+        stage('Deploy to S3') {
+            steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-credentials'
+                ]]) {
+
+                    sh '''
+                        aws s3 cp build/ s3://$S3_BUCKET/ --recursive
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Application deployed successfully to S3'
+        }
+
+        failure {
+            echo 'Pipeline failed'
+        }
+    }
+}

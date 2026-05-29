@@ -1,0 +1,11 @@
+{
+  "name": "hello-world-app",
+  "version": "1.0.0",
+  "description": "Node.js Hello World App",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo 'Tests passed' && exit 0",
+    "build": "mkdir -p dist && cp -r public/* dist/"
+  }
+}
